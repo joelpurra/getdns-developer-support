@@ -21,9 +21,9 @@ replacements=(
   "NanCallback/Nan::Callback"
   "NanSetInternalFieldPointer/Nan::SetInternalFieldPointer"
   "NanGetInternalFieldPointer/Nan::GetInternalFieldPointer"
-  "NanNewBufferHandle\\(([^;]+);/Nan::NewBuffer(\\1.ToLocalChecked();"
+  "NanNewBufferHandle\\(([^)]+)\\)/Nan::NewBuffer(\\1).ToLocalChecked()"
   "(NanNew(<(v8::)?String>)?\\(\"[^\"]*\"\\))/\\1.ToLocalChecked()"
-  "(NanNew<(v8::)?String>\\([^\"][^\;]*);/\\1.ToLocalChecked();"
+  "(NanNew<(v8::)?String>\\([^\"][^)]*\\))/\\1.ToLocalChecked()"
   "NanNew/Nan::New"
   "NODE_SET_PROTOTYPE_METHOD/Nan::SetPrototypeMethod"
   "NODE_SET_METHOD/Nan::SetMethod"
@@ -54,14 +54,17 @@ replacements=(
   "NanAdjustExternalMemory/Nan::AdjustExternalMemory"
   "NanSetTemplate/Nan::SetTemplate"
   "NanHasInstance\\(([^,]+),\\s*([^)]+)\\)/Nan::New(\\1)->HasInstance(\\2)"
+  "NanReturnThis\\(\\)/info.GetReturnValue().Set(info.This())"
+  "Handle<([^>]+)>/Local<\\1>"
+  "Nan::Nan::/Nan::"
 )
-
 os=`uname`
 if [ $os == 'Darwin' ];
 then sed_flag='-E'
 else sed_flag='-r'
 fi
 
+# NOTE: the below could possibly be peformed using `sed -i '.tmp~' -e 's/a/b/g -e 's/c/d/g' ...`.
 for file in "$@"; do
   echo $file
   for replacement in "${replacements[@]}"; do
