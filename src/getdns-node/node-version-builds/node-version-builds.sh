@@ -41,11 +41,11 @@ function crossplatformReadlink {
 
 # Must be executed in this file.
 # Used to recursively call np and to find files to `source`.
-THIS_SOURCE=$(crossplatformReadlink "$BASH_SOURCE")
+declare -r THIS_SOURCE=$(crossplatformReadlink "$BASH_SOURCE")
 
-THIS_SOURCE_DIR="${THIS_SOURCE%/*}"
+declare -r THIS_SOURCE_DIR="${THIS_SOURCE%/*}"
 
-BUILD_ROOT_DIR="${THIS_SOURCE_DIR}/getdns-node-builds"
+declare -r BUILD_ROOT_DIR="${THIS_SOURCE_DIR}/getdns-node-builds"
 
 if [[ -z "$GETDNS_TARGET" ]];
 then
@@ -53,8 +53,10 @@ then
     exit 1
 fi
 
-GIT_REPOSITORY="${1:-}"
+set +u
+declare -r GIT_REPOSITORY="${1:-}"
 shift
+set -u
 
 if [[ -z "$GIT_REPOSITORY" ]];
 then
@@ -62,8 +64,10 @@ then
     exit 1
 fi
 
+set +u
 GIT_COMMITISH="${1:-}"
 shift
+set -u
 
 if [[ -z "$GIT_COMMITISH" ]];
 then
@@ -79,9 +83,9 @@ fi
 
 mkdir -p "$BUILD_ROOT_DIR"
 
-NODE_TARGETS=("0.12.0" "0.12.15" "4.0.0" "4.4.7" "5.0.0" "5.12.0" "6.0.0" "6.3.1")
+declare -a NODE_TARGETS=("4.8.7" "6.13.0" "8.9.4" "9.5.0")
 
-ORIGINAL_NODE_VERSION=$(node --version)
+declare -a ORIGINAL_NODE_VERSION=$(node --version)
 
 onExit() {
     # Restore node version
@@ -115,11 +119,11 @@ do
         # ./node_modules/.bin/n $NODE_TARGET
         n $NODE_TARGET
 
-        NODE_TARGET_EXACT=$(node --version)
+        declare NODE_TARGET_EXACT=$(node --version)
 
         echo "Using node $(node --version) and npm $(npm --version)"
 
-        GETDNS_NODE_TARGET="getdns-${GETDNS_TARGET}-node-${NODE_TARGET_EXACT}"
+        declare GETDNS_NODE_TARGET="getdns-${GETDNS_TARGET}-node-${NODE_TARGET_EXACT}"
 
         mkdir -p "node-$GETDNS_NODE_TARGET"
 

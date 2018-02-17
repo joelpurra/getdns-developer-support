@@ -5,8 +5,10 @@ set -u
 set -o pipefail
 set -x
 
-VERSION_TEST_SCRIPT="$1"
+set +u
+declare -r VERSION_TEST_SCRIPT="${1:-}"
 shift
+set -u
 
 if [[ -z "$VERSION_TEST_SCRIPT" || ! -x "$VERSION_TEST_SCRIPT" ]];
 then
@@ -14,20 +16,21 @@ then
     exit 1
 fi
 
-VERSION_TEST_SCRIPT_FLAGS="false"
+declare VERSION_TEST_SCRIPT_FLAGS="false"
 
+set +u
 if [[ $(($# > 0)) && "${1:-}" == "--" ]];
 then
     VERSION_TEST_SCRIPT_FLAGS="true"
     shift
 fi
+set -u
 
 brew install libtool openssl
 
-export LDFLAGS='-L/usr/local/opt/openssl/lib'
-export CPPFLAGS='-I/usr/local/opt/openssl/include'
+declare OPENSSL_LOCATION="$(brew --prefix openssl)"
 
-GETDNS_TARGETS=("v0.9.0" "v1.0.0b1" "v1.0.0b2" "v1.1.0a1")
+declare -a GETDNS_TARGETS=("v1.0.0" "v1.1.2" "v1.2.1" "v1.3.0")
 
 for GETDNS_TARGET in ${GETDNS_TARGETS[@]};
 do
@@ -42,7 +45,7 @@ do
     autoreconf -fi
 
     # Install on the system-level to avoid problems with building libraries depending on getdns.
-    ./configure --with-libevent
+    ./configure --with-libevent --with-ssl="$OPENSSL_LOCATION"
     #./configure --with-libevent --prefix=$HOME/getdnsosx/export
     #./configure --with-libevent --prefix=$HOME/dev/clients/getdns/upstream/getdns-build/$(git describe)
 
