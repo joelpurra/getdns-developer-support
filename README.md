@@ -11,4 +11,4 @@ Helper scripts and other developer notes for those working with or on [getdns](h
 
 ---
 
-[**getdns-developer-support**](https://github.com/joelpurra/getdns-developer-support) Copyrigh(c) 2014, 2015, 2016 [Joel Purra](http://joelpurra.com/). Released under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause).
+[**getdns-developer-support**](https://github.com/joelpurra/getdns-developer-support) Copyright © 2014, 2015, 2016, 2017, 2018 [Joel Purra](http://joelpurra.com/). Released under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause).

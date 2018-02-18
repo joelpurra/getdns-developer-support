@@ -17,4 +17,4 @@ Compiles/builds/installs using `npm install` and subsequently runs `npm test` of
 
 ---
 
-Copyright (c) 2014, 2015, 2016 [Joel Purra](http://joelpurra.com/). Released under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause). Part of [`getdns`](https://getdnsapi.net/) developer support library [getdns-support](https://github.com/joelpurra/getdns-support)
+Copyright © 2014, 2015, 2016, 2017, 2018 [Joel Purra](http://joelpurra.com/). Released under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause). Part of [`getdns`](https://getdnsapi.net/) developer support library [getdns-support](https://github.com/joelpurra/getdns-support)
